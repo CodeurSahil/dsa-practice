@@ -1,7 +1,5 @@
 # Group Anagrams Together - Problem Statement and Solution Approaches
 
-> 📄 Save this file as `group-anagrams.md` to keep it as a Markdown reference.
-
 ---
 
 ## 🧩 Problem Statement
