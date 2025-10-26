@@ -1,3 +1,12 @@
 {
-    "editor.inlineSuggest.enabled": false
+    "editor.inlineSuggest.enabled": false,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#F27059",
+        "activityBar.background": "#F27059",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#945bc4",
+        "activityBarBadge.foreground": "#e7e7e7"
+    }
 }
+
