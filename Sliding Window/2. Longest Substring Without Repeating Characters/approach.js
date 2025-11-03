@@ -1,4 +1,30 @@
 /**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    const strLength = s.length;
+    let validationMap = new Map();
+
+    let left = 0;
+    let maxLen = 0;
+
+    for (let right = 0; right < strLength; right++) {
+        const CHAR = s[right];
+
+        if (validationMap.has(CHAR)) {
+            left = Math.max(left, validationMap.get(CHAR) + 1);
+        }
+
+        validationMap.set(CHAR, right)
+        maxLen = Math.max(maxLen, right - left + 1);
+    }
+
+    return maxLen;
+};
+
+
+/**
  * Used Recursion to check the longest substring
  * But Did'nt work as expected
  */
