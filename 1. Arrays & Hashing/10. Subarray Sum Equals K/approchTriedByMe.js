@@ -1,3 +1,23 @@
+function checkSum(arr, sum) {
+    const checkMap = {0: 1};
+
+    let curSum = 0, count = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        curSum += arr[i];
+        
+        const toFind = curSum - sum;
+
+        count += (checkMap[toFind] || 0);
+
+        checkMap[toFind] = (checkMap[toFind] || 0) + 1;
+    }
+    
+    return count;
+}
+
+console.log(checkSum([1,-1,0], 0));
+
 /**
  * Used Recursion to check the longest substring
  * Failed Over time

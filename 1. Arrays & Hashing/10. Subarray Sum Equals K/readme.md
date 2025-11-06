@@ -15,3 +15,5 @@ Explanation: Subarrays: arr[0…2], arr[2…4] have sum equal to 33.
 Input : arr[] = [1, 3, 5], k = 2
 Output : 0
 Explanation: No subarrays with 0 sum.
+
+# Prifx Sum
