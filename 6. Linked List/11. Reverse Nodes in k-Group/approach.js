@@ -1,64 +1,32 @@
 /**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
  *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
  * }
  */
 /**
- * @param {ListNode} head
- * @param {number} k
- * @return {ListNode}
+ * @param {TreeNode} root
+ * @return {TreeNode}
  */
-var reverseKGroup = function(head, k) {
-    if (k <= 1) return head;
+var invertTree = function(root) {
+    if (!root) return null;
 
-    let reversedList = null;
-    let dummy = new ListNode(0);
+    invert(root);
 
-    let currNode = head;
-    let prevNode = head;
-
-    let sizeCounter = 0;
-
-    while (currNode != null) {
-        let rightNode = currNode;
-
-        sizeCounter++;
-        currNode = currNode.next;
-        console.log('sizeCounter', sizeCounter)
-
-        if (sizeCounter % k === 0) {
-            let lastNodeReference = prevNode;
-
-            dummy.next = reverse(prevNode, rightNode);
-
-            if (!reversedList) reversedList = dummy.next;
-
-            dummy = prevNode;
-            prevNode = prevNode.next;
-        }
-    }
-
-    return reversedList;
+    return root;
 };
 
-const reverse = (prevNode, curNode) => {
-    let helperNode = prevNode.next;
+const invert = (root) => {
+    const leftNode = root.left;
+    const rightNode = root.right;
 
-    prevNode.next = curNode.next;
+    root.left = rightNode;
+    root.right = leftNode;
 
-    while (helperNode != curNode) {
-        const helperNext = helperNode && helperNode.next ? helperNode.next : null;
+    if (root.left) invert(root.left);
+    if (root.right) invert(root.right);
 
-        helperNode.next = prevNode;
-        prevNode = helperNode;
-
-        helperNode = helperNext;
-    }
-
-    helperNode.next = prevNode;
-    prevNode = helperNode;
-
-    return prevNode;
+    return;
 }
