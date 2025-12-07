@@ -1,74 +1,55 @@
 
-var Twitter = function() {
-    this.followMap = new Map();
-    this.arr = [];
-    this.timeFrame = 0;
+var MedianFinder = function() {
+    this.largeValueHeap = new MinPriorityQueue()
+    this.smallValueHeap = new MaxPriorityQueue()
 };
 
 /** 
- * @param {number} userId 
- * @param {number} tweetId
+ * @param {number} num
  * @return {void}
  */
-Twitter.prototype.postTweet = function(userId, tweetId) {
-    this.arr[this.timeFrame] = [userId, tweetId, this.timeFrame];
-    this.timeFrame++;
-};
+MedianFinder.prototype.addNum = function(num) {
+    this.smallValueHeap.push(num);
 
-/** 
- * @param {number} userId
- * @return {number[]}
- */
-Twitter.prototype.getNewsFeed = function(userId) {
-    let len = 0;
-    const newsFeed = [];
-
-    for (let i = this.timeFrame - 1; i >= 0; i--) {
-        const FEED = this.arr[i];
-
-        if (FEED[0] === userId || (this.followMap.has(userId) && this.followMap.get(userId).get(FEED[0]))) {
-            newsFeed.push(FEED[1]);
-            len++;
-        }
-
-        if (len === 10) break;
+    if (
+        this.smallValueHeap.size() && 
+        this.largeValueHeap.size() && 
+        (
+            this.smallValueHeap.front() > this.largeValueHeap.front()
+            )
+    ) {
+        const value = this.smallValueHeap.pop();
+        this.largeValueHeap.push(value);
     }
 
-    return newsFeed;
-};
-
-/** 
- * @param {number} followerId 
- * @param {number} followeeId
- * @return {void}
- */
-Twitter.prototype.follow = function(followerId, followeeId) {
-    if (!this.followMap.has(followerId)) {
-        this.followMap.set(followerId, new Map());
+    if (this.smallValueHeap.size() > this.largeValueHeap.size() + 1) {
+        const value = this.smallValueHeap.pop();
+        this.largeValueHeap.push(value);
     }
 
-    this.followMap.get(followerId).set(followeeId, true);
+    if (this.largeValueHeap.size() > this.smallValueHeap.size() + 1) {
+        const value = this.largeValueHeap.pop();
+        this.smallValueHeap.push(value);
+    }
 };
 
-/** 
- * @param {number} followerId 
- * @param {number} followeeId
- * @return {void}
+/**
+ * @return {number}
  */
-Twitter.prototype.unfollow = function(followerId, followeeId) {
-    if (this.followMap.has(followerId)) {
-        this.followMap.get(followerId).set(followeeId, false);
-    } 
-};
-// Tweet
-// 1 - [5(0), 3(1), 101(2)]
+MedianFinder.prototype.findMedian = function() {
+    if (this.smallValueHeap.size() > this.largeValueHeap.size()) {
+        return this.smallValueHeap.front();
+    }
+    if (this.largeValueHeap.size() > this.smallValueHeap.size()) {
+        return this.largeValueHeap.front();
+    }
 
-// Follow
+    return (this.smallValueHeap.front() + this.largeValueHeap.front()) / 2;
+};
+
 /** 
- * Your Twitter object will be instantiated and called as such:
- * var obj = new Twitter()
- * obj.postTweet(userId,tweetId)
- * var param_2 = obj.getNewsFeed(userId)
- * obj.follow(followerId,followeeId)
- * obj.unfollow(followerId,followeeId)
+ * Your MedianFinder object will be instantiated and called as such:
+ * var obj = new MedianFinder()
+ * obj.addNum(num)
+ * var param_2 = obj.findMedian()
  */
